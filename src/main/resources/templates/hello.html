@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <h1>hello</h1>
+    <script type="text/javascript" src="/js/showdown.js"></script>
+    <script type="text/javascript" src="/js/showdown.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/boot-strap-min.css" rel="stylesheet">
+</head>
+<body>
+    <div align="center">
+        <span>
+                <textarea class="form-control" id="content" placeholder="//在此处编写" style="height:500px;width:600px;border-radius: 5px;font-family: Georgia;font-size: large;display: inline-block;" onkeyup="compile()"></textarea>
+                &nbsp
+                &nbsp
+                <div id="result" align="left"></div>
+        </span>
+        <style>
+            #result{
+                height:500px;
+                width:600px;
+                overflow: scroll;
+                border: 1px solid #000000;
+                display: inline-block;
+                border-radius: 5px;
+            }
+        </style>
+    </div>
+    <div>
+        <button id="submit">submit</button>
+    </div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+    function compile(){
+        let text = document.getElementById("content").value;
+        let converter = new showdown.Converter();
+        let html = converter.makeHtml(text);
+        document.getElementById("result").innerHTML = html;
+    }
+    $(function() {
+        $("#submit").click(function() {
+            let text = document.getElementById("content").value;
+            let converter = new showdown.Converter();
+            let html = converter.makeHtml(text);
+            console.log(html);
+        })
+    })
+</script>
+</html>

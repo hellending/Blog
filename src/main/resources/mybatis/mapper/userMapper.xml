@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qing.demo.Service.Mapper.UserMapper">
+       <select id="selectUser" resultType="User">
+           select *from blog.user
+       </select>
+       <insert id="insertUser">
+           insert into blog.user(username,password,telephoneNumber) values (#{name},#{password},#{telNum})
+       </insert>
+       <select id="findUserByName" resultType="User">
+           select *from blog.user where username=#{name}
+       </select>
+       <insert id="addInfo">
+           update blog.user set real_name=#{real_name},sex=#{sex},address=#{address},country=#{country},province=#{province},
+               email=#{email},id_card_num=#{id_card_num},city=#{city}
+           where username=#{name}
+       </insert>
+</mapper>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Offcanvas template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/boot-strap-min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/articles.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Former Articles</a>
+    <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/home">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                    </svg>
+                    Home
+                </a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+        </form>
+    </div>
+</nav>
+
+<div class="nav-scroller bg-white box-shadow">
+    <nav class="nav nav-underline">
+        <a class="nav-link active" href="#">Dashboard</a>
+        <a class="nav-link" href="#">
+            Friends
+            <span class="badge badge-pill bg-light align-text-bottom">27</span>
+        </a>
+        <a class="nav-link" href="#">Explore</a>
+        <a class="nav-link" href="#">Suggestions</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+    </nav>
+</div>
+
+<main role="main" class="container" id="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+        <img class="mr-3" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">
+        <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">Your best personal blog</h6>
+            <small>Since 2021.2</small>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow" id="top-head" style="overflow-x: hidden;overflow-y: scroll" v-show="show2===true">
+        <span>
+            <h4 class="border-bottom border-gray pb-2 mb-0" v-show="show2===true" style="display: inline-block;">Former Articles</h4>
+            <button class="btn btn-sm btn-outline-secondary" v-show="show2===true" style="margin-left: 1000px;width: 50px;height: 30px;" id="delete">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                 </svg>
+             </button>
+        </span>
+        <div v-show="check_all===true"><input type="checkbox" name="all-check" id="all-check" style="margin-left: 985px;" v-show="check_all===true" @click="control_all()">all check</div>
+            <div class="media text-muted pt-3" v-show="show2===true" v-for="(name,index) in list_name">
+                <a href="#" class="a_list" v-show="show2===true" @click="re(list_address[index])" style="margin-top: -1px;">
+                    <div class="media text-muted pt-3" v-show="show2===true">
+                        <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded" v-show="show2===true">
+                        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray" v-show="show2===true">
+                            <strong class="d-block text-gray-dark" v-show="show2===true">{{name}}</strong>
+                            by {{list_master[index]}}  @{{list_address[index]}}
+                        </p>
+                    </div>
+                </a>
+                <input type="checkbox" v-show="check_all===true" v-model="list_checked[index]" @click="checkbox(index)">
+            </div>
+    </div>
+    <style>
+        #top-head::-webkit-scrollbar {
+            display: none;/*隐藏滚动条*/
+        }
+    </style>
+    <div class="my-3 p-3 bg-white rounded box-shadow" id="sec-head" style="overflow: scroll" v-show="show3===true">111</div>
+    <strong class="d-block text-right mt-3" id="h1" v-show="show1===true">
+        <a href="#" v-show="show1===true">return</a>
+    </strong>
+</main>
+<div>
+    <button class="btn btn-lg btn-primary btn-block" id="decide" v-show="if_show()===true" style="margin-top: 10px;width: 300px;margin-left: 1000px;">delete</button>
+</div>
+<footer class="footer" id="footer">
+    <div class="container">
+        <span class="text-muted"><em>Read and think</em></span>
+    </div>
+</footer>
+<style>
+    .footer {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 60px;
+        line-height: 60px; /* Vertically center the text there */
+        background-color: #f5f5f5;
+    }
+</style>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<!--<script>-->
+<!--    var a = new Vue({-->
+<!--        el: "#top-head",-->
+<!--        data: {-->
+<!--            list_name: [],-->
+<!--            list_master: [],-->
+<!--            list_address: []-->
+<!--        },-->
+<!--        methods: {-->
+<!--            update(){-->
+<!--                this.$forceUpdate();-->
+<!--            }-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<script src="/js/articles_js.js" type="text/javascript" th:inline="javascript"></script>
+</html>

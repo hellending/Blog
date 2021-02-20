@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+</head>
+<body>
+<div class="layui-form-item">
+    <label class="layui-form-label">图片地址</label>
+    <div class="layui-input-block">
+        <input type="hidden" id="img_url">
+        <input type="file" onchange="showImg()" id="img_file"><img src="" alt="" id="img_id" style="width: 100px">
+    </div>
+</div>
+</body>
+<script>
+    function showImg(){
+// var img_file =  $("#img_file").val();
+        var file =  document.getElementById('img_file').files[0];
+        var re = new FileReader();
+        re.readAsDataURL(file);
+        re.onload = function(re){
+            $('#img_id').attr("src", re.target.result);
+        }
+    }
+</script>
+</html>

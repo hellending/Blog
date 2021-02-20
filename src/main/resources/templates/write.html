@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+    <script type="text/javascript" src="/js/showdown.js"></script>
+    <script type="text/javascript" src="/js/showdown.min.js"></script>
+    <link rel="stylesheet" href="/css/write.css">
+    <link rel="stylesheet" href="/css/boot-strap-min.css">
+</head>
+
+<body>
+
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Write & Create</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+            </ul>
+<!--            <form class="form-inline mt-2 mt-md-0">-->
+<!--                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
+<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--            </form>-->
+        </div>
+    </nav>
+</header>
+
+<a href="https://www.runoob.com/markdown/md-tutorial.html" target="_blank" style="position: absolute;top: 65px;right: 80px;">if you don't know about markdown</a>
+<div align="center" style="position: absolute; top: 100px;left: 120px;">
+        <span>
+                <textarea class="form-control" id="content" placeholder="// On the left is the writing area. Please use markdown format, the effect will be displayed in the right display box.By the way,If you want to add some pictures to the article locally, we support uploading pictures from the link in the lower right corner. The generated code statements will be directly embedded into the article (usually, this automatically inserted statement will not take effect directly. Please move the inserted code up or down one line.)" style="height:500px;width:600px;border-radius: 5px;font-family: Georgia;font-size: large;display: inline-block;" onkeyup="compile()"></textarea>
+                &nbsp
+                &nbsp
+                <div id="result" align="left"></div>
+        </span>
+        <style>
+            #result{
+                height:500px;
+                width:600px;
+                overflow: scroll;
+                border: 1px solid #000000;
+                display: inline-block;
+                border-radius: 5px;
+            }
+        </style>
+    <span>
+        <input class="btn btn-lg btn-primary btn-block" type="button" value="submit" id="submit" style="width: 200px;position: absolute;left: 100px;margin-top: -1px;">
+        <input class="btn btn-lg btn-primary btn-block" type="button" value="clear" id="reset" style="width: 200px;position: absolute;right: 670px;margin-top: -1px;">
+        <form action="/toPictureSave" id="form" method="post" enctype="multipart/form-data" target="frameName">
+            <strong><label style="position: absolute;top: 510px;right: 420px;">Upload local images:</label></strong><input class="form-control" id="file" name="file" type="file" value="Upload local images" style="width: 300px;position: absolute;right: 100px;top: 510px;margin-top: -1px;display: inline-block;" accept="image/jpg,image/jpeg,image/png,image/PNG" required>
+            <input type="text" name="fileName" id="fileName" hidden>
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="upload" id="upload" style="width: 100px;position: absolute;right: -20px;margin-top: -1px;">
+        </form>
+        <iframe src="" id="iframe" frameborder="0" name="frameName" hidden></iframe>
+    </span>
+</div>
+
+<footer class="footer" id="footer">
+    <div class="container">
+        <span class="text-muted"><em>Write down all your thoughts and share them with others.</em></span>
+    </div>
+</footer>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+    function compile(){
+        let text = document.getElementById("content").value;
+        let converter = new showdown.Converter();
+        let html = converter.makeHtml(text);
+        document.getElementById("result").innerHTML = html;
+    };
+    $(function() {
+        $("#submit").click(function() {
+            let text = document.getElementById("content").value;
+            let converter = new showdown.Converter();
+            let html = converter.makeHtml(text);
+            let theme = prompt("The theme of the article is:");
+            if(theme) {
+                $.ajax({
+                    url: "/articleRepeat",
+                    method: "POST",
+                    data: {
+                        "theme": theme
+                    },
+                    success: function(msg){
+                        if(msg=="true"){
+                            $.ajax({
+                                url: "/saveArticle",
+                                method: "post",
+                                data: {
+                                    "article": html,
+                                    "theme": theme
+                                },
+                                success(){
+                                }
+                            }),
+                                $.ajax({
+                                    url: "/insertArticle",
+                                    method: "post",
+                                    data: {
+                                        "theme": theme
+                                    },
+                                    success(){
+                                        alert("Successfully saved!");
+                                        window.location.href = "/home";
+                                    }
+                                })
+                        }
+                        else{
+                            alert("The theme already exists,please choose another!");
+                        }
+                    }
+                })
+
+            }
+            else {
+                alert("please input the theme");
+            }
+        }),
+        $("#reset").click(function() {
+            $("#content").val("");
+            $("#result").text("");
+        });
+        $("#upload").click(function(){
+             let fileName = $("#file").val();
+             fileName = fileName.substring(fileName.lastIndexOf("\\")+1,fileName.length);
+             $("#fileName").val(fileName);
+             return true;
+        });
+        $("#iframe").load(function(){
+            let text = $(this).contents().find("body").text(); //获取到的是json的字符串
+            let index = text.lastIndexOf(",");
+            let userName = text.substring(2,index-1);
+            let fileName = text.substring(index+2,text.length-2);
+            $("#content").val($("#content").val()+"\n"+"![avatar]("+"/picture/"+userName+"/"+fileName+")");
+            $("#result").val($("#content").val());
+            $("#file").val("");
+        })
+    })
+</script>
+</body>
+</html>

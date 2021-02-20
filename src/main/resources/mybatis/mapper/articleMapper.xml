@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qing.demo.Service.Mapper.ArticleMapper">
+     <insert id="insertArticle">
+         insert into blog.article(name,master,address) values (#{theme},#{userName},#{address});
+     </insert>
+     <select id="findAddress" resultType="string">
+         select address from blog.article where name=#{theme} and master=#{userName}
+     </select>
+     <select id="findArticleByMaster" resultType="Article">
+         select *from blog.article where master=#{userName}
+     </select>
+     <select id="findArticleByTheme" resultType="Article">
+         select *from blog.article where master=#{userName} and name like #{themeLike}
+     </select>
+    <select id="findArticle" resultType="Article">
+        select *from blog.article
+    </select>
+    <select id="findAllArticleByTheme" resultType="Article">
+        select *from blog.article where name like #{themeLike}
+    </select>
+    <delete id="deleteArticlesByAddress">
+        delete from blog.article where address=#{address}
+    </delete>
+</mapper>
