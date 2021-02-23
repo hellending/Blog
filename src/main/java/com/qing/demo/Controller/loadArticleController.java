@@ -19,7 +19,7 @@ public class loadArticleController {
         String str;
         StringBuffer re = new StringBuffer();
         while ((str = in.readLine()) != null) {
-            re.append(str);
+            re.append(str+"\n");
         }
         return re.toString();
     }

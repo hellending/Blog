@@ -2,6 +2,7 @@ package com.qing.demo.Controller;
 
 import com.qing.demo.Service.Mapper.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class InsertArticleController {
     ){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String userName = (String) request.getSession().getAttribute("userName");
-        String address = "F:\\IdeaProjects\\blog\\src\\main\\resources\\static\\article"+"\\"+userName+"\\"+theme+".txt";
+        String address = ClassUtils.getDefaultClassLoader().getResource("static").getPath()+"/article/"+userName+"/"+theme+".txt";
         articleMapper.insertArticle(userName,theme,address);
         return "";
     }

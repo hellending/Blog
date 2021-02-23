@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <script type="text/javascript" src="/js/showdown.js"></script>
     <script type="text/javascript" src="/js/showdown.min.js"></script>
@@ -26,10 +26,10 @@
                     </a>
                 </li>
             </ul>
-<!--            <form class="form-inline mt-2 mt-md-0">-->
-<!--                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
-<!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-<!--            </form>-->
+            <!--            <form class="form-inline mt-2 mt-md-0">-->
+            <!--                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
+            <!--                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+            <!--            </form>-->
         </div>
     </nav>
 </header>
@@ -37,21 +37,21 @@
 <a href="https://www.runoob.com/markdown/md-tutorial.html" target="_blank" style="position: absolute;top: 65px;right: 80px;">if you don't know about markdown</a>
 <div align="center" style="position: absolute; top: 100px;left: 120px;">
         <span>
-                <textarea class="form-control" id="content" placeholder="// On the left is the writing area. Please use markdown format, the effect will be displayed in the right display box.By the way,If you want to add some pictures to the article locally, we support uploading pictures from the link in the lower right corner. The generated code statements will be directly embedded into the article (usually, this automatically inserted statement will not take effect directly. Please move the inserted code up or down one line.)" style="height:500px;width:600px;border-radius: 5px;font-family: Georgia;font-size: large;display: inline-block;" onkeyup="compile()"></textarea>
+                <textarea th:text="${article}" class="form-control" id="content" placeholder="// On the left is the writing area. Please use markdown format, the effect will be displayed in the right display box.By the way,If you want to add some pictures to the article locally, we support uploading pictures from the link in the lower right corner. The generated code statements will be directly embedded into the article (usually, this automatically inserted statement will not take effect directly. Please move the inserted code up or down one line.)" style="height:500px;width:600px;border-radius: 5px;font-family: Georgia;font-size: large;display: inline-block;" onkeyup="compile()"></textarea>
                 &nbsp
                 &nbsp
                 <div id="result" align="left"></div>
         </span>
-        <style>
-            #result{
-                height:500px;
-                width:600px;
-                overflow: scroll;
-                border: 1px solid #000000;
-                display: inline-block;
-                border-radius: 5px;
-            }
-        </style>
+    <style>
+        #result{
+            height:500px;
+            width:600px;
+            overflow: scroll;
+            border: 1px solid #000000;
+            display: inline-block;
+            border-radius: 5px;
+        }
+    </style>
     <span>
         <input class="btn btn-lg btn-primary btn-block" type="button" value="submit" id="submit" style="width: 200px;position: absolute;left: 100px;margin-top: -1px;">
         <input class="btn btn-lg btn-primary btn-block" type="button" value="clear" id="reset" style="width: 200px;position: absolute;right: 670px;margin-top: -1px;">
@@ -64,7 +64,8 @@
         <iframe src="" id="iframe" frameborder="0" name="frameName" hidden></iframe>
     </span>
 </div>
-
+<!--这里是用于帮助js获得文件名-->
+<div id="helpGetName">[[${fileName}]]</div>
 <footer class="footer" id="footer">
     <div class="container">
         <span class="text-muted"><em>Write down all your thoughts and share them with others.</em></span>
@@ -84,60 +85,32 @@
             let converter = new showdown.Converter();
             let html = converter.makeHtml(text);
             let article = $("#content").val();
-            console.log(article);
-            let theme = prompt("The theme of the article is:");
-            if(theme) {
-                $.ajax({
-                    url: "/articleRepeat",
-                    method: "POST",
-                    data: {
-                        "theme": theme
-                    },
-                    success: function(msg){
-                        if(msg=="true"){
-                            $.ajax({
-                                url: "/saveArticle",
-                                method: "post",
-                                data: {
-                                    "article": html,
-                                    "theme": theme,
-                                    "model": article
-                                },
-                                success(){
-                                }
-                            }),
-                                $.ajax({
-                                    url: "/insertArticle",
-                                    method: "post",
-                                    data: {
-                                        "theme": theme
-                                    },
-                                    success(){
-                                        alert("Successfully saved!");
-                                        window.location.href = "/home";
-                                    }
-                                })
-                        }
-                        else{
-                            alert("The theme already exists,please choose another!");
-                        }
-                    }
-                })
-
-            }
-            else {
-                alert("please input the theme");
-            }
+            let theme = $("#helpGetName").text();
+            alert(theme);
+            theme = theme.substring(0,theme.lastIndexOf("."));
+            $.ajax({
+                url: "/saveArticle",
+                method: "post",
+                data: {
+                    "article": html,
+                    "theme": theme,
+                    "model": article
+                },
+                success(){
+                    alert("successfully modified!");
+                    window.location.href="/home";
+                }
+            });
         }),
-        $("#reset").click(function() {
-            $("#content").val("");
-            $("#result").text("");
-        });
+            $("#reset").click(function() {
+                $("#content").val("");
+                $("#result").text("");
+            });
         $("#upload").click(function(){
-             let fileName = $("#file").val();
-             fileName = fileName.substring(fileName.lastIndexOf("\\")+1,fileName.length);
-             $("#fileName").val(fileName);
-             return true;
+            let fileName = $("#file").val();
+            fileName = fileName.substring(fileName.lastIndexOf("\\")+1,fileName.length);
+            $("#fileName").val(fileName);
+            return true;
         });
         $("#iframe").load(function(){
             let text = $(this).contents().find("body").text(); //获取到的是json的字符串

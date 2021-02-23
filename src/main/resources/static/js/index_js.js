@@ -25,6 +25,7 @@ let a = new Vue({
                     b.update();
                     c.update();
                     $("#sec-head").html(msg);
+                    console.log(msg);
                 }
             })
         }
@@ -125,5 +126,9 @@ $(function() {
               "        </style>\n" +
               "    </div>";
           $("#top-head").html(html);
-    })
+    });
+    $("#iframe").load(function(){
+        alert("Change successfully!");
+        location.reload();
+    });
 })

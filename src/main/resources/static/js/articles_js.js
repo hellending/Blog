@@ -8,7 +8,8 @@ var a = new Vue({
         check_all: false,
         list_del: [],
         list_checked: [],
-        checked_num: 0
+        checked_num: 0,
+        theme: ""
     },
     methods: {
         update() {
@@ -25,6 +26,7 @@ var a = new Vue({
                     b.show1 = true;
                     a.show2 = false;
                     c.show3 = true;
+                    a.theme = address;
                     a.update();
                     b.update();
                     c.update();
@@ -115,7 +117,6 @@ $(function() {
                 a.list_address.push(list[i].address);
                 a.list_checked.push(false);
             }
-            console.log()
             a.update();
         },
     });
@@ -200,5 +201,8 @@ $(function() {
         a.update();
         alert("Successfully delete!");
         window.location.reload();
-    })
+    });
+    $("#modify").click(function() {
+         $("#address").val(a.theme);
+    });
 });

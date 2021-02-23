@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+
+    <title>Checkout example for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/boot-strap-min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light" align="center">
+
+<div class="container">
+    <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h2>Checkout form</h2>
+        <p class="lead">Check your personal information and improve it</p>
+    </div>
+
+    <div class="row" style="position: absolute;left: 400px;top: 300px;">
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Personal information form</h4>
+            <form class="needs-validation" action="/modifyCount" method="post">
+
+                <div class="mb-3">
+                    <label for="username">RealName</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" name="real_name" id="username" placeholder="RealName" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Your name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com" required>
+                    <label id="_email"></label>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label style="white-space: nowrap">ID Card NO.</label>
+                    <input type="text" class="form-control" name="id_card_num" id="ID" placeholder="ID Card No." required>
+                    &nbsp<label id="_ID"></label>
+                    <div class="invalid-feedback">
+                        Please enter your ID card number.
+                    </div>
+                </div>
+
+                <!--                <div class="mb-3">-->
+                <!--                    <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>-->
+                <!--                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">-->
+                <!--                </div>-->
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="country">Country</label>
+                        <select class="custom-select d-block w-100" name="country" id="country" required>
+                            <option value="">Choose...</option>
+                            <option>CN</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">State</label>
+                        <select class="custom-select d-block w-100" id="state" name="state" required>
+                            <option value="">Choose...</option>
+                            <option v-for="state in list">{{state}}</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="state">City</label>
+                        <select class="custom-select d-block w-100" id="city" name="city" required>
+                            <option value="">Choose...</option>
+                            <option v-for="city in map.get(target)">{{city}}</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label style="white-space: nowrap">Exact address</label>
+                        <input class="form-control" type="text" name="address" placeholder="Not required" style="font-family: Georgia;border-radius: 5px;width: 700px">
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <label>Sex</label>
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" name="sex" class="custom-control-input" id="same-address" value="Man" checked>
+                    <label class="custom-control-label" for="same-address">Man</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="radio" name="sex" class="custom-control-input" value="Woman" id="save-info">
+                    <label class="custom-control-label" for="save-info">Woman</label>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit" id="submit">Submit</button>
+                <br/>
+                <br/>
+                <div align="middle"><p class="mb-1">&copy; 2020-2021 By DocW</p></div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<footer class="my-5 pt-5 text-muted text-center text-small">
+</footer>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="/js/info_js.js" type="text/javascript" th:inline="javascript"></script>
+</html>
