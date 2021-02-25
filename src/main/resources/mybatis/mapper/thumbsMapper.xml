@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qing.demo.Service.Mapper.ThumbsMapper">
+    <insert id="insert">
+        insert into blog.thumbs_up(article_name,master,who) values (#{article_name},#{master},#{who})
+    </insert>
+    <delete id="delete">
+        delete from blog.thumbs_up where article_name=#{article_name} and master=#{master} and who=#{who}
+    </delete>
+    <select id="ifThumbs" resultType="thumbs_up">
+        select *from blog.thumbs_up where article_name=#{article_name} and master=#{master} and who=#{who}
+    </select>
+</mapper>

@@ -1,28 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+    <meta charset="utf-8">
+    <title>html5上传头像</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="fonts/font-awesome-4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet href="css/zzsc-demo.css">
+    <link rel="stylesheet" href="css/icons.css" />
+    <script src="js/mo.min.js"></script>
+    <script src="js/demo.js"></script>
 </head>
+
 <body>
-<div class="layui-form-item">
-    <label class="layui-form-label">图片地址</label>
-    <div class="layui-input-block">
-        <input type="hidden" id="img_url">
-        <input type="file" onchange="showImg()" id="img_file"><img src="" alt="" id="img_id" style="width: 100px">
-    </div>
-</div>
+<section class="content">
+    <ol class="grid">
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+        <li class="grid__item">
+            <button class="icobutton icobutton--thumbs-up"><span class="fa fa-thumbs-up"></span></button>
+        </li>
+    </ol>
+</section>
 </body>
-<script>
-    function showImg(){
-// var img_file =  $("#img_file").val();
-        var file =  document.getElementById('img_file').files[0];
-        var re = new FileReader();
-        re.readAsDataURL(file);
-        re.onload = function(re){
-            $('#img_id').attr("src", re.target.result);
-        }
-    }
-</script>
+
 </html>

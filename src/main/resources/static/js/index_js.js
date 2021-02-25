@@ -1,10 +1,13 @@
+var if_collect=0;
+var if_thumbs=0;
 let a = new Vue({
     el: "#top-head",
     data: {
         list_name: [],
         list_master: [],
         list_address: [],
-        show2: true
+        show2: true,
+        theme: ""
     },
     methods: {
         update() {
@@ -21,13 +24,45 @@ let a = new Vue({
                     b.show1 = true;
                     a.show2 = false;
                     c.show3 = true;
+                    a.theme = address;
                     a.update();
                     b.update();
                     c.update();
                     $("#sec-head").html(msg);
-                    console.log(msg);
+                    $.ajax({
+                        url: "/ifCollectAndThumbs",
+                        data: {
+                            "address": a.theme
+                        },
+                        method: "POST",
+                        success: function(msg){
+                            if_collect = msg[0];
+                            if_thumbs = msg[1];
+                            console.log(if_collect);
+                            console.log(if_thumbs);
+                            if(if_collect===1){
+                                $("#collect").css("background-color","#e7ac7a");
+                            }
+                            else $("#collect").css("background-color","#fdf4ea");
+                            if(if_thumbs===1){
+                                $("#thumbs_up").css("background-color","#e7ac7a");
+                            }
+                            else $("#thumbs_up").css("background-color","#fdf4ea");
+                        }
+                    });
+                    $.ajax({
+                       url: "getCollectAndLikesNum",
+                       data: {
+                           "address": a.theme
+                       },
+                       method: "POST",
+                       success: function(msg){
+                             $("#likesNum").text(msg[0]);
+                             $("#collectionNum").text(msg[1]);
+                       }
+                    });
                 }
-            })
+            });
         }
     }
 });
@@ -43,7 +78,7 @@ let c = new Vue({
     }
 });
 let b = new Vue({
-    el: "#h1",
+    el: "#b",
     data: {
         show1: false
     },
@@ -127,8 +162,82 @@ $(function() {
               "    </div>";
           $("#top-head").html(html);
     });
-    $("#iframe").load(function(){
-        alert("Change successfully!");
-        location.reload();
-    });
+            $("#iframe").load(function(){
+                alert("Change successfully!");
+                location.reload();
+            });
+            $("#collect").mouseover(function(){
+                if(if_collect===0)
+                $("#collect").css("background-color","#e7ac7a");
+            });
+            $("#collect").mouseout(function(){
+                if(if_collect===0)
+                $("#collect").css("background-color","#fdf4ea");
+            });
+            $("#thumbs_up").mouseover(function(){
+                if(if_thumbs===0)
+                $("#thumbs_up").css("background-color","#e7ac7a");
+            });
+            $("#thumbs_up").mouseout(function(){
+                if(if_thumbs===0)
+                $("#thumbs_up").css("background-color","#fdf4ea");
+            });
+            $("#collect").click(function(){
+                if(if_collect===0){
+                    $.ajax({
+                        url: "/collectIncrease",
+                        method: "POST",
+                        data: {
+                            "address": a.theme
+                        },
+                        success: function(){
+                            $("#collectionNum").text(parseInt($("#collectionNum").text())+1);
+                        }
+                    });
+                    if_collect = 1;
+                }
+                else{
+                    $.ajax({
+                        url: "/collectDecrease",
+                        method: "POST",
+                        data: {
+                            "address": a.theme
+                        },
+                        success: function(){
+                            $("#collectionNum").text(parseInt($("#collectionNum").text())-1);
+                        }
+                    });
+                    $("#collect").css("background-color","#fdf4ea");
+                    if_collect = 0;
+                }
+            });
+            $("#thumbs_up").click(function(){
+                if(if_thumbs===0){
+                    $.ajax({
+                        url: "/thumbsIncrease",
+                        method: "POST",
+                        data: {
+                            "address": a.theme
+                        },
+                        success: function(){
+                            $("#likesNum").text(parseInt($("#likesNum").text())+1);
+                        }
+                    });
+                    if_thumbs = 1;
+                }
+                else{
+                    $.ajax({
+                        url: "/thumbsDecrease",
+                        method: "POST",
+                        data: {
+                            "address": a.theme
+                        },
+                        success: function(){
+                            $("#likesNum").text(parseInt($("#likesNum").text())-1);
+                        }
+                    });
+                    $("#thumbs_up").css("background-color","#fdf4ea");
+                    if_thumbs = 0;
+                }
+            });
 })

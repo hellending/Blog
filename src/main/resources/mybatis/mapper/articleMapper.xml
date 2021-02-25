@@ -6,7 +6,7 @@
      <insert id="insertArticle">
          insert into blog.article(name,master,address) values (#{theme},#{userName},#{address});
      </insert>
-     <select id="findAddress" resultType="string">
+     <select id="findAddress" resultType="java.lang.String">
          select address from blog.article where name=#{theme} and master=#{userName}
      </select>
      <select id="findArticleByMaster" resultType="Article">
@@ -24,4 +24,19 @@
     <delete id="deleteArticlesByAddress">
         delete from blog.article where address=#{address}
     </delete>
+    <update id="collectIncrease">
+        update blog.article set collect_num=collect_num+1 where address=#{address}
+    </update>
+    <update id="thumbsIncrease">
+        update blog.article set thumbs_up=thumbs_up+1 where address=#{address}
+    </update>
+    <update id="collectDecrease">
+        update blog.article set collect_num=collect_num-1 where address=#{address}
+    </update>
+    <update id="thumbsDecrease">
+        update blog.article set thumbs_up=thumbs_up-1 where address=#{address}
+    </update>
+    <select id="getCollectAndThumbsByAddress" resultType="Article">
+        select * from blog.article where address=#{address}
+    </select>
 </mapper>

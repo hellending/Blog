@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qing.demo.Service.Mapper.CollectMapper">
+         <insert id="insert">
+             insert into blog.collect(article_name,master,collector,address) values (#{article_name},#{master},#{collector},#{address})
+         </insert>
+         <delete id="delete">
+             delete from blog.collect where article_name=#{article_name} and master=#{master} and collector=#{collector}
+         </delete>
+         <select id="ifCollect" resultType="collect">
+             select *from blog.collect where article_name=#{article_name} and master=#{master} and collector=#{collector}
+         </select>
+         <select id="getCollectArticles" resultType="collect">
+             select *from blog.collect where collector=#{collector}
+         </select>
+         <select id="getCollectArticlesByTheme" resultType="collect">
+             select *from blog.collect where collector=#{collector} and article_name like #{themeLike}
+         </select>
+         <delete id="deleteByAddress">
+             delete from blog.collect where address=#{address}
+         </delete>
+</mapper>
