@@ -86,7 +86,6 @@
             let html = converter.makeHtml(text);
             let article = $("#content").val();
             let theme = $("#helpGetName").text();
-            alert(theme);
             theme = theme.substring(0,theme.lastIndexOf("."));
             $.ajax({
                 url: "/saveArticle",

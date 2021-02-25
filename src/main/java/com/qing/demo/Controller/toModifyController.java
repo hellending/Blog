@@ -27,6 +27,7 @@ public class toModifyController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String userName = (String) request.getSession().getAttribute("userName");
         String path = ClassUtils.getDefaultClassLoader().getResource("static").getPath()+"/article_model/"+userName+"/"+fileName;
+        System.out.println(address);
         BufferedReader in = new BufferedReader(new FileReader(path));
         String str;
         StringBuffer re = new StringBuffer();

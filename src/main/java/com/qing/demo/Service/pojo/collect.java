@@ -5,12 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Article {
-    String name;
+@AllArgsConstructor
+public class collect {
+    String article_name;
     String master;
+    String collector;
     String address;
-    int collect_num;
-    int thumbs_up;
 }

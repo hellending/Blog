@@ -72,21 +72,21 @@ var a = new Vue({
 });
 
 var c = new Vue({
-   el: "#sec-head",
-   data: {
-       show3: false
-   },
-   methods: {
-       update() {
-           this.$forceUpdate();
-       }
-   }
+    el: "#sec-head",
+    data: {
+        show3: false
+    },
+    methods: {
+        update() {
+            this.$forceUpdate();
+        }
+    }
 });
 
 var b = new Vue({
     el: "#h1",
     data: {
-       show1: false
+        show1: false
     },
     methods: {
         update() {
@@ -108,12 +108,12 @@ var d = new Vue({
 $(function() {
     let flag = 0;
     $.ajax({
-        url: "/getArticles",
+        url: "/getCollectArticles",
         method: "POST",
         data: {},
         success: function(list){
             for(let i=0;i<list.length;i++){
-                a.list_name.push(list[i].name);
+                a.list_name.push(list[i].article_name);
                 a.list_master.push(list[i].master);
                 a.list_address.push(list[i].address);
                 a.list_checked.push(false);
@@ -133,17 +133,18 @@ $(function() {
     $("#search").keyup(function() {
         let text = $("#search").val();
         $.ajax({
-            url: "/personalSearch",
+            url: "/collectSearch",
             data: {
                 "text": text
             },
             method: "POST",
             success: function(list){
+                console.log(list);
                 a.list_name.splice(0,a.list_name.length);
                 a.list_address.splice(0,a.list_address.length);
                 a.list_master.splice(0,a.list_master.length);
                 for(let i=0;i<list.length;i++){
-                    a.list_name.push(list[i].name);
+                    a.list_name.push(list[i].article_name);
                     a.list_master.push(list[i].master);
                     a.list_address.push(list[i].address);
                 }
@@ -177,7 +178,7 @@ $(function() {
             list_address.push(a.list_address[a.list_del[i]]);
         }
         $.ajax({
-            url: "/deleteArticles",
+            url: "/deleteCollect",
             data: {
                 list_address: list_address
             },
@@ -186,7 +187,7 @@ $(function() {
         });
         let set = new Set();
         for(let i in list_address){
-             set.add(i);
+            set.add(i);
         }
         for(let i=0;i<a.list_address.length;){
             if(a.list_address[i] in set){

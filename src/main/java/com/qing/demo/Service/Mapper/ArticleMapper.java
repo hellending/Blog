@@ -16,4 +16,9 @@ public interface ArticleMapper {
     public List<Article> findArticle();
     public List<Article> findAllArticleByTheme(String themeLike);
     public void deleteArticlesByAddress(String address);
+    public void collectIncrease(String address);
+    public void thumbsIncrease(String address);
+    public void collectDecrease(String address);
+    public void thumbsDecrease(String address);
+    public Article getCollectAndThumbsByAddress(String address);
 }

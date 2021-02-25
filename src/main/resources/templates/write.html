@@ -147,7 +147,11 @@
             $("#content").val($("#content").val()+"\n"+"![avatar]("+"/picture/"+userName+"/"+fileName+")");
             $("#result").val($("#content").val());
             $("#file").val("");
-        })
+        });
+        window.onbeforeunload=function(e){
+            var e = window.event||e;
+            e.returnValue=("文章还没有保存哦，确认离开吗？");
+        }
     })
 </script>
 </body>
