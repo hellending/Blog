@@ -244,5 +244,12 @@ $(function() {
     });
     $("#topic").click(function(){
         window.open("/toTopic?master="+$("#m_name").text()+"&userName="+$("#userName").text());
+        a.show2 = true;
+        b.show1 = false;
+        c.show3 = false;
+        $("#sec-head").html("");
+        a.update();
+        b.update();
+        c.update();
     });
 })
