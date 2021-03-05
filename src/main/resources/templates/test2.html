@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bootstrap 实例</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Bootstrap 实例 - 弹出框（Popover）插件方法</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.layuicdn.com/layui/layui.js" charset="utf-8"></script>
 </head>
 <body>
 
-<div class="container">
-    <h2>模态框实例</h2>
-    <!-- 按钮：用于打开模态框 -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        打开模态框
+<div class="container" style="padding: 100px 50px 10px;" >
+    <button type="button" class="btn btn-default popover-show"
+            title="Popover title" data-container="body"
+            data-toggle="popover" data-placement="left"
+            data-content="左侧的 Popover 中的一些内容 —— show 方法">
+        左侧的 Popover
     </button>
+    <button type="button" class="btn btn-primary popover-hide"
+            title="Popover title" data-container="body"
+            data-toggle="popover" data-placement="top"
+            data-content="顶部的 Popover 中的一些内容 —— hide 方法">
+        顶部的 Popover
+    </button>
+    <button type="button" class="btn btn-success popover-destroy"
+            title="Popover title" data-container="body"
+            data-toggle="popover" data-placement="bottom"
+            data-content="底部的 Popover 中的一些内容 —— destroy 方法">
+        底部的 Popover
+    </button>
+    <button type="button" class="btn btn-warning popover-toggle"
+            title="Popover title" data-container="body"
+            data-toggle="popover" data-placement="right"
+            data-content="右侧的 Popover 中的一些内容 —— toggle 方法">
+        右侧的 Popover
+    </button><br>
+    <button id="write_comment" title="<h2>Title</h2>" data-container="body" data-toggle="popover" data-placement="left" data-content="<textarea class='layui-textarea' id='LAY_demo1' style='display: none;width: ' placeholder='//Input here'>
+</textarea>" style="width: 60px;height:60px;border-radius: 50%;cursor: pointer;position: fixed;bottom: 150px;right: 30px;outline: none;border: 0px;font-size: 5px;background: radial-gradient(circle at 70px 70px,#b1cce8,#2e84e8);" v-show="show4===true">
+        Comment
+    </button>
+    <textarea class="layui-textarea" id="LAY_demo1" style="display: none;width: " placeholder="//Input here">
+</textarea>
+    <script>
+        $(function () { $('.popover-show').popover('show');});
+        $(function () { $('.popover-hide').popover('hide');});
+        $(function () { $('.popover-destroy').popover('destroy');});
+        $(function () { $('.popover-toggle').popover('toggle');});
+        $(function () { $("#write_comment").popover({html : true });});
+        layui.use('layedit', function(){
+        var layedit = layui.layedit
+        ,$ = layui.jquery;
 
-    <!-- 模态框 -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        //构建一个默认的编辑器
+        var index = layedit.build('LAY_demo1');
 
-                <!-- 模态框头部 -->
-                <div class="modal-header">
-                    <h4 class="modal-title">模态框头部</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- 模态框主体 -->
-                <div class="modal-body">
-                    模态框内容..
-                </div>
-
-                <!-- 模态框底部 -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
+        $("#1").click(function(){
+        layedit.setContent(index,"<p><b>sdfsfgfdgg</b></p><p><b>sefr<img src=\"https://www.layuicdn.com/layui/images/face/25.gif\" alt=\"[抱抱]\"></b></p>",false);
+    });
+    });
+    </script>
 </div>
 
 </body>

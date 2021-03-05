@@ -15,6 +15,22 @@ let a = new Vue({
         },
         re(address,master) {
             $.ajax({
+               url: "/getComments",
+               data: {
+                    "master": master,
+                    "article": $("#article_name").text()
+               },
+               method: "post",
+               success: function(list){
+                   for(let i=0;i<list[0].length;i++){
+                       d.list_reviewer.push(list[0][i]);
+                       d.list_comment.push(list[1][i]);
+                       d.list_address.push("/headPortrait/"+list[0][i]+"/userLogo.jpg");
+                   }
+                   d.update();
+               }
+            });
+            $.ajax({
                 url: "/loadArticle",
                 data: {
                     "address": address
@@ -24,10 +40,12 @@ let a = new Vue({
                     b.show1 = true;
                     a.show2 = false;
                     c.show3 = true;
+                    d.show4 = true;
                     a.theme = address;
                     a.update();
                     b.update();
                     c.update();
+                    d.update();
                     $("#sec-head").html(msg);
                     $("#m_logo_o").attr("src","/headPortrait/"+master+"/userLogo.jpg");
                     $("#m_name").text(master);
@@ -40,8 +58,6 @@ let a = new Vue({
                         success: function(msg){
                             if_collect = msg[0];
                             if_thumbs = msg[1];
-                            console.log(if_collect);
-                            console.log(if_thumbs);
                             if(if_collect===1){
                                 $("#collect").css("background-color","#e7ac7a");
                             }
@@ -109,7 +125,48 @@ let b = new Vue({
         }
     }
 });
+
+let d = new Vue({
+    el: "#comment",
+    data: {
+        show4: false,
+        list_reviewer: [],
+        list_comment: [],
+        list_address: []
+    },
+    methods: {
+        update() {
+            this.$forceUpdate();
+        }
+    }
+});
 $(function() {
+    layui.use('layedit', function(){
+        var layedit = layui.layedit
+            ,$ = layui.jquery;
+
+        //构建一个默认的编辑器
+        var index = layedit.build('LAY_demo1');
+        $("#comment_submit").click(function(){
+             $.ajax({
+                url: "saveComments",
+                data: {
+                    "content": layedit.getContent(index),
+                    "master": $("#article_master").text(),
+                    "article": $("#article_name").text()
+                },
+                method: "POST",
+                success: function(){
+                    $("#text_comment").hide();
+                    comment_if_show = false;
+                }
+             });
+            d.list_comment.push(layedit.getContent(index));
+            d.list_address.push("/headPortrait/"+$("#userName").text()+"/userLogo.jpg");
+            d.list_reviewer.push($("#userName").text());
+            layedit.setContent(index,"",false);
+        });
+    });
     $.ajax({
         url: "/findAllArticles",
         method: "POST",
@@ -127,10 +184,17 @@ $(function() {
         a.show2 = true;
         b.show1 = false;
         c.show3 = false;
+        d.show4 = false;
+        d.list_comment.splice(0,d.list_comment.length);
+        d.list_reviewer.splice(0,d.list_reviewer.length);
+        d.list_address.splice(0,d.list_address.length);
         $("#sec-head").html("");
         a.update();
         b.update();
         c.update();
+        d.update();
+        $("#text_comment").hide();
+        comment_if_show = false;
     });
     $("#search").keyup(function() {
         let text = $("#search").val();
@@ -299,6 +363,79 @@ $(function() {
                     $("#follow").text("Focus");
                 }
             });
+        }
+    });
+    $("#write_comment").mouseover(function(){
+       $("#write_comment").css("background", "radial-gradient(circle at 70px 70px,#6facec,#054b9a)")
+    });
+    $("#write_comment").mouseout(function(){
+       $("#write_comment").css("background","radial-gradient(circle at 70px 70px,#b1cce8,#2e84e8)");
+    });
+    let write_comment_if_mouse_down = false;
+    let disX;
+    let disY;
+    let startTime;
+    let endTime;
+    $("#write_comment").mousedown(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        //算出鼠标相对元素的位置
+        write_comment_if_mouse_down = true
+        disX = e.clientX - $("#write_comment")[0].offsetLeft;
+        disY = e.clientY - $("#write_comment")[0].offsetTop;
+        startTime = new Date().getTime();
+    });
+    $("#write_comment").mouseup(function(){
+        $("#write_comment").attr("data-target","");
+        endTime = new Date().getTime()
+        write_comment_if_mouse_down = false
+        let left = $("#write_comment")[0].offsetLeft;
+        if(left <= 840){
+            let x = $("#write_comment")[0].offsetLeft;
+            while(x>254){
+                $("#write_comment").css("left",x--);
+            }
+        }
+        else{
+            let x = $("#write_comment")[0].offsetLeft;
+            while(x<1460){
+                $("#write_comment").css("left",x++);
+            }
+        }
+        return false
+    });
+    let comment_if_show = false;
+    $("#write_comment").click(function(){
+        if(endTime-startTime<=180){
+            if(comment_if_show==false) {
+                $("#text_comment").show();
+                $('html, body').animate({scrollTop: $('#box').offset().top}, 1000);
+            }
+            else {
+                $("#text_comment").hide();
+            }
+            comment_if_show = !comment_if_show;
+        }
+    });
+    $("#write_comment").mousemove(function(e){
+        if (write_comment_if_mouse_down) {
+            // 用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+            let left = e.clientX - disX;
+            let top = e.clientY - disY;
+            // 设置按钮移动的边界
+            if (top < 0) {
+                top = 0
+            } else if (top > document.body.clientHeight - $("#write_comment")[0].offsetHeight) {
+                top = document.body.clientHeight - $("#write_comment")[0].offsetHeight
+            }
+            if (left < 0) {
+                left = 0
+            } else if (left > document.body.clientWidth - $("#write_comment")[0].offsetWidth) {
+                left = document.body.clientWidth - $("#write_comment")[0].offsetWidth
+            }
+            // 移动当前元素
+            $("#write_comment").css("left",left+"px");
+            $("#write_comment").css("top",top+"px");
         }
     });
 })
