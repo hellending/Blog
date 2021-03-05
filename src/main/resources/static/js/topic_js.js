@@ -105,6 +105,20 @@ $(function(){
             a.update();
         },
     });
+    $.ajax({
+        url: "/getTopicInfo",
+        data: {
+            "userName": $("#master").text()
+        },
+        methods: "post",
+        success: function(list){
+            console.log(list[3]);
+            $("#articles").text(list[0]);
+            $("#collection").text(list[1]);
+            $("#praised").text(list[2]);
+            $("#focus").text(list[3]);
+        }
+    });
     $("#h1").click(function() {
         a.show2 = true;
         b.show1 = false;

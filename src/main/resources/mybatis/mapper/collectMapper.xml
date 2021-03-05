@@ -21,4 +21,7 @@
          <delete id="deleteByAddress">
              delete from blog.collect where address=#{address}
          </delete>
+         <select id="getCollector" resultType="String">
+             select collector from blog.collect where address=#{address}
+         </select>
 </mapper>

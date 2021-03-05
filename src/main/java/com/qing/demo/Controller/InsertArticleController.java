@@ -1,6 +1,7 @@
 package com.qing.demo.Controller;
 
 import com.qing.demo.Service.Mapper.ArticleMapper;
+import com.qing.demo.Service.Mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class InsertArticleController {
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private ArticleMapper articleMapper;
     @RequestMapping("insertArticle")
     public String insertArticle(
@@ -23,6 +26,7 @@ public class InsertArticleController {
         String userName = (String) request.getSession().getAttribute("userName");
         String address = ClassUtils.getDefaultClassLoader().getResource("static").getPath()+"/article/"+userName+"/"+theme+".txt";
         articleMapper.insertArticle(userName,theme,address);
+        userMapper.writeArticle(userName);
         return "";
     }
 }

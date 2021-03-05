@@ -19,4 +19,8 @@ public class User{
     String address;
     String id_card_num;
     String real_name;
+    int praise_num;
+    int collect_num;
+    int article_num;
+    int focused_num;
 }

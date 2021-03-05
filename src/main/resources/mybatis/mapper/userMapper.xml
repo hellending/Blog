@@ -17,4 +17,28 @@
                email=#{email},id_card_num=#{id_card_num},city=#{city}
            where username=#{name}
        </insert>
+       <update id="writeArticle">
+           update blog.user set article_num=article_num+1 where username=#{userName}
+       </update>
+       <update id="deleteArticle">
+           update blog.user set article_num=article_num-1 where username=#{userName}
+       </update>
+       <update id="increaseThumbs">
+           update blog.user set praise_num=praise_num+1 where username=#{userName}
+       </update>
+       <update id="decreaseThumbs">
+           update blog.user set praise_num=praise_num-1 where username=#{userName}
+       </update>
+       <update id="increaseCollect">
+           update blog.user set collect_num=collect_num+1 where userName=#{userName}
+       </update>
+       <update id="decreaseCollect">
+           update blog.user set collect_num=collect_num-1 where userName=#{userName}
+       </update>
+       <update id="decreaseFocus">
+           update blog.user set focused_num=focused_num-1 where userName=#{userName}
+       </update>
+       <update id="increaseFocus">
+           update blog.user set focused_num=focused_num+1 where userName=#{userName}
+       </update>
 </mapper>

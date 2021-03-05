@@ -12,4 +12,7 @@
     <select id="ifThumbs" resultType="thumbs_up">
         select *from blog.thumbs_up where article_name=#{article_name} and master=#{master} and who=#{who}
     </select>
+    <delete id="deleteByArticle">
+        delete from blog.thumbs_up where article_name=#{article_name} and master=#{master}
+    </delete>
 </mapper>

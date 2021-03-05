@@ -1,8 +1,6 @@
 package com.qing.demo.Controller;
 
-import com.qing.demo.Service.Mapper.ArticleMapper;
-import com.qing.demo.Service.Mapper.CollectMapper;
-import com.qing.demo.Service.Mapper.UserMapper;
+import com.qing.demo.Service.Mapper.FocusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,23 +11,16 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-public class deleteCollectController {
+public class cancelFocusController {
     @Autowired
-    ArticleMapper articleMapper;
-    @Autowired
-    CollectMapper collectMapper;
-    @Autowired
-    UserMapper userMapper;
-    @RequestMapping("/deleteCollect")
-    public void deleteCollect(
-            @RequestParam("list_address[]")String[] list_address
+    FocusMapper focusMapper;
+    @RequestMapping("/cancelFocus")
+    public void cancelFocus(
+            @RequestParam("focus_who")String focus_who
     ){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String userName = (String) request.getSession().getAttribute("userName");
-        for (String listAddress : list_address) {
-             collectMapper.deleteByAddress(listAddress);
-             articleMapper.collectDecrease(listAddress);
-             userMapper.decreaseCollect(userName);
-        }
+        focusMapper.focusDecrease(focus_who,userName);
+        return;
     }
 }

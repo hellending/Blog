@@ -14,4 +14,5 @@ public interface CollectMapper {
      public List<collect> getCollectArticles(String collector);
      public List<collect> getCollectArticlesByTheme(String themeLike,String collector);
      public void deleteByAddress(String address);
+     public List<String> getCollector(String address);
 }

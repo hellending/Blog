@@ -65,6 +65,25 @@ let a = new Vue({
                     });
                 }
             });
+            $.ajax({
+                url: "/ifFocus",
+                data: {
+                    "userName": $("#userName").text(),
+                    "focus_who": master
+                },
+                method: "post",
+                success: function(msg){
+                    if(msg===false){
+                        $("#follow").css("background-color", "#959595")
+                        $("#follow").text("Focused");
+                    }
+                    else {
+                        $("#follow").css("background-color","#e487fa");
+                        $("#follow").text("Focus");
+                    }
+                }
+            });
+
         }
     }
 });
@@ -251,5 +270,35 @@ $(function() {
         a.update();
         b.update();
         c.update();
+    });
+    $("#follow").click(function(){
+        if($("#follow").text()==="Focus"){
+            $.ajax({
+               url: "/focusIncrease",
+               data: {
+                   "userName": $("#userName").text(),
+                   "focus_who": $("#m_name").text()
+               },
+               method: "post",
+               success: function(){
+                   $("#follow").css("background-color", "#959595")
+                   $("#follow").text("Focused");
+               }
+            });
+        }
+        else{
+            $.ajax({
+                url: "/focusDecrease",
+                data: {
+                    "userName": $("#userName").text(),
+                    "focus_who": $("#m_name").text()
+                },
+                method: "post",
+                success: function(){
+                    $("#follow").css("background-color","#e487fa");
+                    $("#follow").text("Focus");
+                }
+            });
+        }
     });
 })

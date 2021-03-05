@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qing.demo.Service.Mapper.FocusMapper">
+       <select id="getFocus" resultType="Focus">
+              select *from blog.focus where focus_who=#{focus_who} and follower=#{follower}
+       </select>
+       <insert id="focusIncrease">
+              insert into blog.focus(focus_who,follower) values (#{focus_who},#{follower})
+       </insert>
+       <delete id="focusDecrease">
+              delete from blog.focus where focus_who=#{focus_who} and follower=#{follower}
+       </delete>
+       <select id="getFocus1" resultType="string">
+              select focus_who from blog.focus where follower=#{follower}
+       </select>
+</mapper>
