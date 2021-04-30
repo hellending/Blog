@@ -124,17 +124,18 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" id="main">
                 <div class="my-3 p-3 bg-white rounded box-shadow" id="top-head" style="overflow-x: hidden;overflow-y: scroll;" v-show="show2===true">
                     <strong><em><h2 class="border-bottom border-gray pb-2 mb-0" v-show="show2===true">All Articles From The Site</h2></em></strong>
-                    <a href="#" v-for="(name,index) in list_name" class="a_list" @click="re(list_address[index],list_master[index])">
-                        <div class="media text-muted pt-3" v-show="show2===true">
+                    <a href="#" v-for="(name,index) in list_name" class="a_list" @click="re(list_address[index],list_master[index],index)">
+                        <div class="media text-muted pt-3" v-show="show2===true&&list_page[index]===true">
 <!--                            <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded" v-show="show2===true">-->
-                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray" v-show="show2===true">
-                                <strong class="d-block text-gray-dark" v-show="show2===true">{{name}}</strong>
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray" v-show="show2===true&&list_page[index]===true">
+                                <strong class="d-block text-gray-dark" v-show="show2===true&&list_page[index]===true">{{name}}</strong>
                                 by {{list_master[index]}}  @{{list_address[index]}}
                             </p>
                         </div>
                         <span id="article_master" hidden>{{list_master[index]}}</span>
-                        <span id="article_name" hidden>{{name}}</span>
+                        <span id="article_name" hidden></span>
                     </a>
+                    <div id="page_bar"></div>
                 </div>
             <style>
                 #top-head::-webkit-scrollbar {
@@ -149,7 +150,7 @@
                         <button id="follow" class="btn btn-lg btn-primary btn-block" style="margin-left: 80px;margin-top: 40px;width: 70px;height: 40px;background-color: #e487fa;border: 0px;"></button>
                     </div>
                 </div>
-                <hr/>
+                <hr v-show="show3===true"/>
                 <div class="my-3 p-3 bg-white rounded box-shadow" id="sec-head" style="overflow: scroll" v-show="show3===true">111</div>
             </div>
             <style>
@@ -190,7 +191,8 @@
                 </strong>
             </div>
             <br/>
-            <hr/>
+            <hr v-show="show1===true"/>
+            <span id="box"></span>
             <div class="my-3 p-3 bg-white rounded box-shadow" id="comment" v-show="show4===true">
                 <button id="write_comment" data-toggle="modal" data-target="" style="width: 60px;height:60px;border-radius: 50%;cursor: pointer;position: fixed;bottom: 150px;right: 30px;outline: none;border: 0px;font-size: 5px;background: radial-gradient(circle at 70px 70px,#b1cce8,#2e84e8);" v-show="show4===true">
                     Comment
@@ -202,10 +204,8 @@
                     </svg>
                     <em><strong v-show="show4===true">Comments</strong></em>
                 </div>
-
                 <div class="media text-muted pt-3" id="text_comment" align="center" style="display:none">
                     <!--锚点-->
-                    <span id="box"></span>
                     <span>
                         <div align="left"><stong><label style="font-size: 20px;">No more than 100 words</label></stong></div>
                         <textarea class="layui-textarea" id="LAY_demo1">

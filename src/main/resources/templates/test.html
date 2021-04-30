@@ -2,45 +2,30 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css"  media="all">
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <title>layPage快速使用</title>
+    <video src="https://github.githubassets.com/images/modules/site/home/globe-900.h264.mp4"></video>
 </head>
 <body>
 
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>完整功能（没错，目前工具栏只有这么多）</legend>
-</fieldset>
+<div id="test1"></div>
 
-<textarea class="layui-textarea" id="LAY_demo1" style="display: none;width: " placeholder="//Input here">
-</textarea>
-
-<div class="site-demo-button" style="margin-top: 20px;">
-    <button class="layui-btn site-demo-layedit" id="1">获取编辑器选中内容</button>
-</div>
-
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script src="https://www.layuicdn.com/layui/layui.js" charset="utf-8"></script>
-<div id="a" hidden>
-    <p><b>lkfdsjlk</b></p>
-</div>
- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
 <script>
-    layui.use('layedit', function(){
-        var layedit = layui.layedit
-            ,$ = layui.jquery;
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
 
-        //构建一个默认的编辑器
-        var index = layedit.build('LAY_demo1');
-
-        $("#1").click(function(){
-            layedit.setContent(index,"<p><b>sdfsfgfdgg</b></p><p><b>sefr<img src=\"https://www.layuicdn.com/layui/images/face/25.gif\" alt=\"[抱抱]\"></b></p>",false);
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+            ,count: 100 //数据总数，从服务端得到
+            ,limit: 10 //每页多少数据
+            ,jump: function(obj,first){
+                if(!first){
+                    console.log(obj.curr)
+                }
+            }
         });
     });
 </script>
-
 </body>
 </html>

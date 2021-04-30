@@ -16,10 +16,10 @@
          select *from blog.article where master=#{userName} and name like #{themeLike}
      </select>
     <select id="findArticle" resultType="Article">
-        select *from blog.article
+        select *from blog.article limit 100
     </select>
     <select id="findAllArticleByTheme" resultType="Article">
-        select *from blog.article where name like #{themeLike}
+        select *from blog.article where name like #{themeLike} limit 100
     </select>
     <delete id="deleteArticlesByAddress">
         delete from blog.article where address=#{address}

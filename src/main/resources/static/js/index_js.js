@@ -6,6 +6,7 @@ let a = new Vue({
         list_name: [],
         list_master: [],
         list_address: [],
+        list_page: [],
         show2: true,
         theme: ""
     },
@@ -13,12 +14,14 @@ let a = new Vue({
         update() {
             this.$forceUpdate();
         },
-        re(address,master) {
+        re(address,master,index) {
+            $("#article_name").text(a.list_name[index]);
+            $("#article_master").text(master);
             $.ajax({
                url: "/getComments",
                data: {
                     "master": master,
-                    "article": $("#article_name").text()
+                    "article": a.list_name[index]
                },
                method: "post",
                success: function(list){
@@ -167,6 +170,7 @@ $(function() {
             layedit.setContent(index,"",false);
         });
     });
+
     $.ajax({
         url: "/findAllArticles",
         method: "POST",
@@ -176,18 +180,46 @@ $(function() {
                 a.list_name.push(list[i].name);
                 a.list_master.push(list[i].master);
                 a.list_address.push(list[i].address);
+                if(i<10){
+                    a.list_page.push(true);
+                }
+                else{
+                    a.list_page.push(false);
+                }
             }
             a.update();
         },
     });
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+        let now_page=0;
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'page_bar' //注意，这里的 test1 是 ID，不用加 # 号
+            ,count: a.list_name.length //数据总数，从服务端得到
+            ,limit: 10 //每页多少数据
+            ,jump: function(obj,first){
+                if(!first){
+                    for(let i=now_page*10;i<now_page*10+10;i++){
+                        a.list_page[i] = false;
+                    }
+                    now_page = obj.curr-1;
+                    for(let i=now_page*10;i<now_page*10+10;i++){
+                        a.list_page[i] = true;
+                    }
+                    a.update();
+                }
+            }
+        });
+    });
     $("#h1").click(function() {
+        d.list_comment.splice(0,d.list_comment.length);
+        d.list_reviewer.splice(0,d.list_reviewer.length);
+        d.list_address.splice(0,d.list_address.length);
         a.show2 = true;
         b.show1 = false;
         c.show3 = false;
         d.show4 = false;
-        d.list_comment.splice(0,d.list_comment.length);
-        d.list_reviewer.splice(0,d.list_reviewer.length);
-        d.list_address.splice(0,d.list_address.length);
         $("#sec-head").html("");
         a.update();
         b.update();
@@ -214,8 +246,30 @@ $(function() {
                     a.list_address.push(list[i].address);
                 }
                 a.update();
+                layui.use('laypage', function(){
+                    var laypage = layui.laypage;
+                    let now_page=0;
+                    //执行一个laypage实例
+                    laypage.render({
+                        elem: 'page_bar' //注意，这里的 test1 是 ID，不用加 # 号
+                        ,count: a.list_name.length //数据总数，从服务端得到
+                        ,limit: 10 //每页多少数据
+                        ,jump: function(obj,first){
+                            if(!first){
+                                for(let i=now_page*10;i<now_page*10+10;i++){
+                                    a.list_page[i] = false;
+                                }
+                                now_page = obj.curr-1;
+                                for(let i=now_page*10;i<now_page*10+10;i++){
+                                    a.list_page[i] = true;
+                                }
+                                a.update();
+                            }
+                        }
+                    });
+                });
             }
-        })
+        });
     });
     $("#about").click(function() {
         let html = " <div class=\"my-3 p-3 bg-white rounded box-shadow\" id=\"sec-head\" style=\"overflow-y: scroll;overflow-x: hidden;\">\n" +
@@ -330,10 +384,12 @@ $(function() {
         a.show2 = true;
         b.show1 = false;
         c.show3 = false;
+        d.show4 = false;
         $("#sec-head").html("");
         a.update();
         b.update();
         c.update();
+        d.update();
     });
     $("#follow").click(function(){
         if($("#follow").text()==="Focus"){

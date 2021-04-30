@@ -3,19 +3,23 @@ package com.qing.demo.Controller;
 import com.qing.demo.Service.Mapper.CommentMapper;
 import com.qing.demo.Service.pojo.comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@RestController
-public class commentController {
+@Controller
+public class Comment {
     @Autowired
     CommentMapper commentMapper;
+
+    @ResponseBody
     @RequestMapping("/saveComments")
     public void saveComments(
             @RequestParam("content")String content,
@@ -26,6 +30,8 @@ public class commentController {
         String userName = (String) request.getSession().getAttribute("userName");
         commentMapper.insertComment(userName,content,master,article);
     }
+
+    @ResponseBody
     @RequestMapping("/getComments")
     public List<List<String>>getComments(
             @RequestParam("master")String master,

@@ -7,5 +7,10 @@ $(function(){
                 window.location.href="/register";
             }
         })
-    })
+    });
+    $("#password").click(function(){
+        if($("#password").val()===''&&$("#msg").text()!==''){
+            $("#msg").text('');
+        }
+    });
 })
